@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>博鱼体育 · 信息卡片式介绍页</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #eef6f8;
+      color: #1e2f3a;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page {
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    /* 主视觉卡片 hero */
+    .hero-card {
+      background: linear-gradient(145deg, #0f3e47 0%, #1b5c6b 100%);
+      border-radius: 2rem;
+      padding: 2.5rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 12px 28px rgba(11, 60, 70, 0.25);
+      color: #f0fbfc;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -30%;
+      width: 180%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 40%, rgba(72, 207, 195, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-card h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.4rem;
+      position: relative;
+    }
+
+    .hero-card .subhead {
+      font-size: 1.05rem;
+      opacity: 0.85;
+      max-width: 600px;
+      margin: 0 auto 0.6rem auto;
+      position: relative;
+    }
+
+    .hero-card .badge-grid {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1rem;
+      margin-top: 1.2rem;
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0.6rem 1.2rem;
+      border-radius: 3rem;
+      backdrop-filter: blur(4px);
+    }
+
+    .badge-grid span {
+      display: inline-block;
+    }
+
+    /* 网格卡片容器 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      padding: 1.8rem 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 30, 40, 0.06);
+      transition: transform 0.2s ease, box-shadow 0.2s;
+      border: 1px solid rgba(20, 120, 130, 0.08);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(9, 80, 90, 0.12);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 0.6rem;
+      display: inline-block;
+      background: #d9f0f2;
+      width: 3.2rem;
+      height: 3.2rem;
+      line-height: 3.2rem;
+      text-align: center;
+      border-radius: 1rem;
+      color: #127380;
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #0b3b45;
+      font-weight: 600;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #2e4a55;
+      margin-bottom: 0.25rem;
+    }
+
+    .card ul {
+      list-style: none;
+      margin-top: 0.6rem;
+    }
+
+    .card ul li {
+      font-size: 0.9rem;
+      padding: 0.2rem 0;
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .card ul li::before {
+      content: "▹";
+      color: #1f9aa8;
+      font-weight: bold;
+    }
+
+    /* 自然链接段落 */
+    .link-section {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      padding: 2rem 2rem 2.2rem;
+      margin: 2rem 0;
+      box-shadow: 0 4px 12px rgba(0, 30, 40, 0.04);
+      border-left: 6px solid #1f9aa8;
+    }
+
+    .link-section p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .link-section a {
+      color: #0d6b78;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 2px solid rgba(26, 147, 160, 0.3);
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .link-section a:hover {
+      border-bottom-color: #1b8798;
+      color: #05444f;
+    }
+
+    .faq-mini {
+      background: #f6fbfc;
+      border-radius: 1.2rem;
+      padding: 1.5rem;
+      margin-top: 1.8rem;
+    }
+
+    .faq-mini summary {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #0b4c58;
+      cursor: pointer;
+      padding: 0.3rem 0;
+    }
+
+    .faq-mini details {
+      border-bottom: 1px solid #d3e6ea;
+      padding: 0.4rem 0;
+    }
+
+    .faq-mini details:last-child {
+      border-bottom: none;
+    }
+
+    .faq-mini details p {
+      margin: 0.4rem 0 0.2rem 0;
+      font-size: 0.92rem;
+      color: #2d4b55;
+    }
+
+    .meta-note {
+      text-align: center;
+      margin-top: 2.5rem;
+      font-size: 0.8rem;
+      color: #6a8993;
+    }
+
+    @media (max-width: 640px) {
+      .hero-card h1 { font-size: 1.8rem; }
+      .hero-card { padding: 2rem 1.2rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .link-section { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- 主视觉 -->
+    <div class="hero-card">
+      <h1>博鱼体育 · 稳定服务边界</h1>
+      <div class="subhead">从资讯聚合到赛事追踪，一个偏向知识型的体育信息入口</div>
+      <div class="badge-grid">
+        <span>⚡ 实时比分</span>
+        <span>📋 赛事简报</span>
+        <span>🧩 多运动项目</span>
+        <span>📱 自适应界面</span>
+      </div>
+    </div>
+
+    <!-- 用途卡片 -->
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🏟️</div>
+        <h3>赛事速览</h3>
+        <p>覆盖足球、篮球、网球等主流联赛，提供简洁的赛程与结果回顾。适合赛前快速了解对阵背景。</p>
+        <ul>
+          <li>积分榜与交锋记录</li>
+          <li>关键球员数据</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>数据卡片</h3>
+        <p>以结构化方式呈现运动统计，减少信息噪音。命中率、控球率、射正次数一目了然。</p>
+        <ul>
+          <li>逐场效率对比</li>
+          <li>赛季趋势折线</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧭</div>
+        <h3>信息导航</h3>
+        <p>聚合多个体育媒体摘要，避免频繁切换站点。同一页面内可浏览不同来源的赛前分析。</p>
+        <ul>
+          <li>战报与短评</li>
+          <li>伤病与轮换动态</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <h3>轻量搜索</h3>
+        <p>支持按联赛、球队或日期筛选内容。检索逻辑直观，降低浏览门槛，适合快速定位关注赛事。</p>
+        <ul>
+          <li>历史赛季归档</li>
+          <li>热门对决标记</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 适合人群 + 自然链接段落 -->
+    <div class="link-section">
+      <p><strong>适合哪些人？</strong> 无论是刚接触体育数据的新观众，还是希望减少信息过载的资深爱好者，都能从这个页面结构中找到自己需要的片段。平台不试图替代深度报道，而是充当一个稳定的信息中转站。</p>
+      <p>如果你正在寻找一个结构清晰的体育资讯起点，可以了解一下 <a href="https://chinese-boyusport.com">博鱼体育</a> 所整合的内容方式——它把比分、简报和导航集中在同一界面，减少跳转成本。对于日常关注足球、篮球联赛的用户，这种卡片式布局能够快速建立赛事情境。</p>
+      <p>另外，站点对移动端做了针对性调整，卡片间距和字体在手机屏幕上依然保有可读性。团队持续优化加载逻辑，避免过多冗余元素干扰阅读节奏。如果你偏好知识型而非煽动性的体育信息流，这个入口值得放进书签。</p>
+      
+      <div class="faq-mini">
+        <details>
+          <summary>❓ 信息更新频率如何？</summary>
+          <p>主要赛事期间保持分钟级刷新，友谊赛或次级联赛则按轮次汇总。所有数据来源均标注参考时间。</p>
+        </details>
+        <details>
+          <summary>❓ 是否需要注册才能浏览？</summary>
+          <p>目前大部分内容免费公开，部分深度统计页面可能要求轻量验证，但核心卡片与导航均可直接访问。</p>
+        </details>
+        <details>
+          <summary>❓ 移动端与桌面端体验差异大吗？</summary>
+          <p>采用响应式网格，布局自动适配。卡片在窄屏下变为单列，按钮和链接保持触摸友好，字体不小于16px。</p>
+        </details>
+      </div>
+    </div>
+
+    <!-- 补充说明（自然收束） -->
+    <div style="background: #d9eef2; border-radius: 1rem; padding: 1.2rem 1.5rem; margin-top: 0.8rem; color: #13444f;">
+      <p style="display: flex; gap: 0.5rem; align-items: flex-start;"><span style="font-weight: 600;">🧾 页面说明</span> 本介绍页仅作为功能与内容方向的静态展示，不涉及任何实时投注或金融行为。所有赛事数据仅供信息参考，请以官方发布为准。</p>
+    </div>
+
+    <div class="meta-note">
+      <span>服务稳定 · 信息卡片式 · 适合体育数据爱好者</span>
+    </div>
+  </div>
+</body>
+</html>
